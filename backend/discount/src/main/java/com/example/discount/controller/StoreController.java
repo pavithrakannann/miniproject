@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.discount.entity.Store;
 import com.example.discount.service.StoreService;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/store")
@@ -28,5 +30,23 @@ public class StoreController {
         return service.saveStore(store);
 
     }
+    @GetMapping("/all")
+public List<Store> getAllStores() {
+    return service.getAllStores();
+}
+@GetMapping("/{id}")
+public Store getStoreById(@PathVariable Long id) {
+    return service.getStoreById(id);
+}
+@PutMapping("/{id}")
+public Store updateStore(@PathVariable Long id,
+                         @RequestBody Store store) {
+    return service.updateStore(id, store);
+}
+@DeleteMapping("/{id}")
+public String deleteStore(@PathVariable Long id) {
+    service.deleteStore(id);
+    return "Store deleted successfully";
+}
 
 }
