@@ -1,4 +1,4 @@
-package com.example.discount.controller;
+package com.example.discount.store.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.discount.entity.Store;
-import com.example.discount.service.StoreService;
+import com.example.discount.store.entity.Store;
+import com.example.discount.store.service.StoreService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

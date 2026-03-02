@@ -1,12 +1,12 @@
-package com.example.discount.service;
+package com.example.discount.store.service;
 
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-import com.example.discount.entity.Discount;
-import com.example.discount.entity.Product;
-import com.example.discount.repository.DiscountRepository;
-import com.example.discount.repository.ProductRepository;
+import com.example.discount.store.entity.Discount;
+import com.example.discount.store.entity.Product;
+import com.example.discount.store.repository.DiscountRepository;
+import com.example.discount.store.repository.ProductRepository;
 
 @Service
 public class DiscountService {

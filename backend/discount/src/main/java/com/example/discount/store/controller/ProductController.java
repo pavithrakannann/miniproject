@@ -1,9 +1,9 @@
-package com.example.discount.controller;
+package com.example.discount.store.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.example.discount.entity.Product;
-import com.example.discount.service.ProductService;
+import com.example.discount.store.entity.Product;
+import com.example.discount.store.service.ProductService;
 
 @RestController
 @RequestMapping("/products")

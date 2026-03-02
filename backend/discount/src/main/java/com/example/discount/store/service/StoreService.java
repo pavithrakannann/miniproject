@@ -1,11 +1,11 @@
-package com.example.discount.service;
+package com.example.discount.store.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.discount.entity.Store;
-import com.example.discount.repository.StoreRepository;
+import com.example.discount.store.entity.Store;
+import com.example.discount.store.repository.StoreRepository;
 
 @Service
 public class StoreService {
