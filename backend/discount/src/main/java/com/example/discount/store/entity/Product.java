@@ -1,4 +1,4 @@
-package com.example.discount.entity;
+package com.example.discount.store.entity;
 
 import jakarta.persistence.*;
 
