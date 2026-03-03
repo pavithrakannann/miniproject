@@ -1,4 +1,4 @@
-package com.example.discount.store.entity;
+package com.example.discount.store.entity.Discount;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
