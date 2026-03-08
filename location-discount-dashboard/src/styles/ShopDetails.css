@@ -1,0 +1,14 @@
+.shop-details {
+  margin-top: 30px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.shop-details ul {
+  margin-top: 10px;
+}
+
+.select-text {
+  margin-top: 20px;
+}
