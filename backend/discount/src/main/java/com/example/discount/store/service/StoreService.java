@@ -1,11 +1,11 @@
-package com.example.discount.service;
+package com.example.discount.store.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.discount.entity.Store;
-import com.example.discount.repository.StoreRepository;
+import com.example.discount.store.entity.Store;
+import com.example.discount.store.repository.StoreRepository;
 
 @Service
 public class StoreService {
@@ -66,6 +66,25 @@ public class StoreService {
         }
 
     }
+    public Store updateStore(Long id, Store updatedStore) {
+
+    Store existingStore = repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Store not found"));
+
+    existingStore.setName(updatedStore.getName());
+    existingStore.setCategory(updatedStore.getCategory());
+    existingStore.setAddress(updatedStore.getAddress());
+
+    // Re-fetch latitude & longitude if address changed
+    double[] coords = geoService.getLatLng(updatedStore.getAddress());
+
+    if (coords != null) {
+        existingStore.setLatitude(coords[0]);
+        existingStore.setLongitude(coords[1]);
+    }
+
+    return repo.save(existingStore);
+}
 
     // ✅ Get all stores (useful for nearest store feature later)
     public List<Store> getAllStores() {
@@ -82,5 +101,13 @@ public class StoreService {
                         new RuntimeException("Store not found"));
 
     }
+    public void deleteStore(Long id) {
+
+    if (!repo.existsById(id)) {
+        throw new RuntimeException("Store not found");
+    }
+
+    repo.deleteById(id);
+}
 
 }

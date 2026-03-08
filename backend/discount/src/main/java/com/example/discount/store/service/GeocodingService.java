@@ -1,4 +1,4 @@
-package com.example.discount.service;
+package com.example.discount.store.service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
