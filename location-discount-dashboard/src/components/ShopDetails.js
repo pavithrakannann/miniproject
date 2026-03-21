@@ -1,36 +1,92 @@
+// import "../styles/ShopDetails.css";
+
+// function ShopDetails({ shop }) {
+
+// if (!shop) {
+//  return <h3 className="select-text">Select a shop</h3>;
+// }
+
+// return (
+
+// <div className="shop-details">
+
+// <h2>{shop.name}</h2>
+
+// <p>{shop.address}</p>
+
+// <h4>Products</h4>
+
+// <ul>
+
+// {shop.products.map((product, index) => (
+
+// <li key={index}>
+// {product.name} - {product.discount}% OFF
+// </li>
+
+// ))}
+
+// </ul>
+
+// </div>
+
+// );
+
+// }
+
+// export default ShopDetails;
+
+
 import "../styles/ShopDetails.css";
 
 function ShopDetails({ shop }) {
 
-if (!shop) {
- return <h3 className="select-text">Select a shop</h3>;
-}
+  // If no shop selected
+  if (!shop) {
+    return <h3 className="select-text">Select a shop</h3>;
+  }
 
-return (
+  return (
 
-<div className="shop-details">
+    <div className="shop-details">
 
-<h2>{shop.name}</h2>
+      <h2>{shop.name}</h2>
 
-<p>{shop.address}</p>
+      <p className="shop-address">{shop.address}</p>
 
-<h4>Products</h4>
+      <h4>Products & Discounts</h4>
 
-<ul>
+      <ul className="product-list">
 
-{shop.products.map((product, index) => (
+        {shop.products && shop.products.length > 0 ? (
 
-<li key={index}>
-{product.name} - {product.discount}% OFF
-</li>
+          shop.products.map((product, index) => (
 
-))}
+            <li key={index} className="product-item">
 
-</ul>
+              <span className="product-name">
+                {product.name}
+              </span>
 
-</div>
+              <span className="product-discount">
+                {product.discount}% OFF
+              </span>
 
-);
+            </li>
+
+          ))
+
+        ) : (
+
+          <p>No products available</p>
+
+        )}
+
+      </ul>
+
+    </div>
+
+  );
 
 }
 
