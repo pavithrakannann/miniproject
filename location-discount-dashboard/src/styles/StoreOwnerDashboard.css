@@ -1,4 +1,4 @@
-.dashboard-container{
+/* .dashboard-container{
 display:flex;
 height:100vh;
 }
@@ -60,4 +60,135 @@ padding:10px;
 .product-table th{
 background:#2c3e50;
 color:white;
+} */
+
+/* Layout */
+.owner-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #1e2a38;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: none;
+  background: #2f3e4e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar button:hover {
+  background: #4b6b88;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Store Card */
+.store-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.store-card h3 {
+  margin: 0;
+}
+
+.store-card button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.store-card button:hover {
+  background: #0056b3;
+}
+
+/* Forms */
+form {
+  margin-top: 15px;
+}
+
+form input,
+form select {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 180px;
+}
+
+form button {
+  padding: 10px 15px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #1e7e34;
+}
+
+/* Section Titles */
+h2 {
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+/* Offer Cards */
+.offer-card {
+  background: #ffffff;
+  border-left: 5px solid #28a745;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.offer-card h4 {
+  margin: 0;
+}
+
+.offer-card p {
+  margin: 4px 0;
+}
+
+/* Divider */
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ddd;
 }
