@@ -1,44 +1,14 @@
-package com.example.discount.offer.entity;
+package com.example.discount.offer.dto;
 
 import java.time.LocalDate;
 
-import com.example.discount.store.entity.Store;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-@Entity
-public class Offer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OfferRequestDto {
 
     private String title;
     private String description;
-
     private String type;
-
     private LocalDate startDate;
     private LocalDate endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "store_id")
-    @JsonIgnore
-    private Store store;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -78,13 +48,5 @@ public class Offer {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
     }
 }

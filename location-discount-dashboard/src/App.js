@@ -1,164 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import axios from "axios";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
+import UserDashboard from "./components/UserDashboard";
+import { getStoredUser } from "./utils/auth";
 
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import CategoryPage from "./components/CategoryPage";
-import MapView from "./components/MapView";
+function ProtectedRoute({ allowedRole, children }) {
+  const user = getStoredUser();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRole && user.role !== allowedRole) {
+    return <Navigate to={user.role === "STORE_OWNER" ? "/owner" : "/user"} replace />;
+  }
+
+  return children;
+}
 
 function App() {
-
-  const [shops, setShops] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  // ✅ Fetch stores (ONLY API logic)
-  useEffect(() => {
-    axios.get("http://localhost:8080/api/store/all")
-      .then(res => {
-
-        const stores = res.data.map(store => ({
-          ...store,
-          latitude: Number(store.latitude),
-          longitude: Number(store.longitude)
-        }));
-
-        setShops(stores);
-
-        // Extract unique categories
-        const uniqueCategories = [
-          ...new Set(
-            stores
-              .map(store => store.category?.trim())
-              .filter(cat => cat)
-          )
-        ];
-
-        setCategories(uniqueCategories);
-
-      })
-      .catch(err => console.error("Error fetching stores:", err));
-  }, []);
-
   return (
-
-    <div className="app-container">
-
-      {/* Navbar */}
-      <Navbar />
-
-      <div className="dashboard">
-
-        {/* Sidebar */}
-        <div className="sidebar">
-          <Sidebar
-            categories={categories}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
-        </div>
-
-        {/* Main Content */}
-        <div className="content">
-          <CategoryPage
-            shops={shops}
-            selectedCategory={selectedCategory}
-          />
-        </div>
-
-        {/* Map */}
-        <div className="map-panel">
-          <MapView shops={shops} />
-        </div>
-
-      </div>
-
-    </div>
-
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute allowedRole="USER">
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/owner"
+          element={
+            <ProtectedRoute allowedRole="STORE_OWNER">
+              <StoreOwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-// import React, { useEffect, useState } from "react";
-  // import "./App.css";
-  // import axios from "axios";
-
-  // import Navbar from "./components/Navbar";
-  // import Sidebar from "./components/Sidebar";
-  // import CategoryPage from "./components/CategoryPage";
-  // import MapView from "./components/MapView";
-
-  // function App() {
-
-  //   const [shops, setShops] = useState([]);
-  //   const [categories, setCategories] = useState([]);
-  //   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  //   // ✅ Fetch stores
-  //   useEffect(() => {
-  //     axios.get("http://localhost:8080/api/store/all")
-  //       .then(res => {
-
-  //         const stores = res.data;
-  //         setShops(stores);
-
-  //         const uniqueCategories = [
-  //           ...new Set(
-  //             stores
-  //               .map(store => store.category?.trim())
-  //               .filter(cat => cat)
-  //           )
-  //         ];
-
-  //         setCategories(uniqueCategories);
-
-  //       })
-  //       .catch(err => console.error("Error fetching stores:", err));
-
-  //   }, []);
-
-  //   // ✅ FILTER LOGIC (MAIN FIX)
-  //   const filteredShops = selectedCategory
-  //     ? shops.filter(shop => shop.category === selectedCategory)
-  //     : shops; // 👈 show ALL initially
-
-  //   return (
-
-  //     <div className="app-container">
-
-  //       <Navbar />
-
-  //       <div className="dashboard">
-
-  //         {/* Sidebar */}
-  //         <div className="sidebar">
-  //           <Sidebar
-  //             categories={categories}
-  //             selectedCategory={selectedCategory}
-  //             setSelectedCategory={setSelectedCategory}
-  //           />
-  //         </div>
-
-  //         {/* Content */}
-  //         <div className="content">
-  //           <CategoryPage
-  //             shops={filteredShops}   // ✅ FIXED
-  //             selectedCategory={selectedCategory}
-  //           />
-  //         </div>
-
-  //         {/* Map */}
-  //         <div className="map-panel">
-  //           <MapView shops={filteredShops} /> {/* ✅ also update map */}
-  //         </div>
-
-  //       </div>
-
-  //     </div>
-
-  //   );
-  // }
-
-  // export default App;

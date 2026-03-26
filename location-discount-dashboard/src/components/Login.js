@@ -1,117 +1,93 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 import "../styles/Auth.css";
-import { useNavigate, Link } from "react-router-dom";
+import { getReadableError } from "../utils/error";
+import { setStoredUser } from "../utils/auth";
 
 function Login() {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  // ✅ Auto redirect if already logged in
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  const handleChange = (event) => {
+    setForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
-    if (user) {
-      if (user.role === "OWNER") {
-        navigate("/owner");
-      } else {
-        navigate("/home");
-      }
-    }
-  }, [navigate]);
-
-  const handleLogin = async (e) => {
-
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
 
     try {
-
-      // ✅ FIXED API URL
-      const res = await axios.post(
-        "http://localhost:8080/api/users/login",
-        {
-          email,
-          password
-        }
-      );
-
-      const user = res.data;
-
-      if (!user || !user.role) {
-        alert("Invalid login response");
-        return;
-      }
-
-      localStorage.setItem("user", JSON.stringify(user));
-
-      alert("Login Successful!");
-
-      // ✅ safer role check
-      if (user.role.toUpperCase() === "OWNER") {
-        navigate("/owner");
-      } else {
-        navigate("/home");
-      }
-
-    } catch (error) {
-
-      console.error(error);
-
-      // ✅ Show real backend error
-      alert(
-        error.response?.data?.message ||
-        error.response?.data ||
-        "Login Failed"
-      );
-
+      const user = await loginUser(form);
+      setStoredUser(user);
+      navigate(user.role === "STORE_OWNER" ? "/owner" : "/user");
+    } catch (err) {
+      setError(getReadableError(err, "Unable to log in. Please check your email and password."));
+    } finally {
+      setIsSubmitting(false);
     }
-
   };
 
   return (
+    <div className="auth-page">
+      <div className="auth-panel">
+        <div className="auth-copy">
+          <span className="auth-badge">Offer Hunt</span>
+          <h1>Find the best nearby deals in one place.</h1>
+          <p>
+            Users can discover active shop offers around them, while store owners can manage shops
+            and promotions from a focused dashboard.
+          </p>
+        </div>
 
-    <div className="auth-container">
+        <form className="auth-card" onSubmit={handleSubmit}>
+          <h2>Welcome back</h2>
+          <p>Sign in to continue to your dashboard.</p>
 
-      <div className="auth-card">
+          <label>
+            Email
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              required
+            />
+          </label>
 
-        <h2>Login</h2>
+          <label>
+            Password
+            <input
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              required
+            />
+          </label>
 
-        <form onSubmit={handleLogin}>
+          {error ? <div className="auth-error">{error}</div> : null}
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            required
-          />
+          <button className="auth-button" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Signing in..." : "Login"}
+          </button>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            required
-          />
-
-          <button type="submit">Login</button>
-
+          <div className="auth-footer">
+            <span>New to Offer Hunt?</span>
+            <Link to="/register">Create an account</Link>
+          </div>
         </form>
-
-        <p className="auth-switch">
-          Don’t have an account?{" "}
-          <Link to="/register">Register</Link>
-        </p>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default Login;

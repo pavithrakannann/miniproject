@@ -2,47 +2,49 @@ package com.example.discount.offer.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.discount.offer.entity.Offer;
+import com.example.discount.offer.dto.OfferRequestDto;
+import com.example.discount.offer.dto.OfferResponseDto;
 import com.example.discount.offer.service.OfferService;
 
 @RestController
 @RequestMapping("/api/offers")
-@CrossOrigin(origins = "http://localhost:3000")
 public class OfferController {
 
-    private final OfferService service;
+    private final OfferService offerService;
 
-    public OfferController(OfferService service) {
-        this.service = service;
+    public OfferController(OfferService offerService) {
+        this.offerService = offerService;
     }
 
-    // ✅ ADD OFFER
-    @PostMapping("/{storeId}")
-    public Offer addOffer(@PathVariable Long storeId,
-                          @RequestBody Offer offer) {
-
-        return service.addOffer(storeId, offer);
+    @PostMapping("/shop/{storeId}")
+    public OfferResponseDto addOffer(@PathVariable Long storeId, @RequestBody OfferRequestDto offer) {
+        return offerService.addOffer(storeId, offer);
     }
 
-    // ✅ GET OFFERS
     @GetMapping("/store/{storeId}")
-    public List<Offer> getOffers(@PathVariable Long storeId) {
-        return service.getOffersByStore(storeId);
+    public List<OfferResponseDto> getOffers(@PathVariable Long storeId,
+                                            @RequestParam(defaultValue = "true") boolean activeOnly) {
+        return offerService.getOffersByStore(storeId, activeOnly);
     }
 
-    // ✅ DELETE OFFER
+    @PutMapping("/{id}")
+    public OfferResponseDto updateOffer(@PathVariable Long id, @RequestBody OfferRequestDto offer) {
+        return offerService.updateOffer(id, offer);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteOffer(@PathVariable Long id) {
-        service.deleteOffer(id);
+        offerService.deleteOffer(id);
         return "Offer deleted";
     }
 }

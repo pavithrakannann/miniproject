@@ -1,194 +1,68 @@
-/* .dashboard-container{
-display:flex;
-height:100vh;
+.owner-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr 1.1fr;
+  gap: 22px;
+  margin-top: 22px;
 }
 
-.sidebar{
-width:220px;
-background:#1f2d3d;
-color:white;
-padding:20px;
+.owner-panel {
+  overflow: hidden;
 }
 
-.sidebar button{
-display:block;
-width:100%;
-margin-top:10px;
-padding:10px;
-border:none;
-background:#34495e;
-color:white;
-cursor:pointer;
+.owner-form {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
 }
 
-.sidebar button:hover{
-background:#3f5d7d;
+.owner-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 500;
 }
 
-.dashboard-content{
-flex:1;
-padding:40px;
-background:#f5f6fa;
-}
-
-.store-form{
-display:flex;
-flex-direction:column;
-width:400px;
-gap:10px;
-}
-
-.product-form{
-display:flex;
-flex-direction:column;
-width:350px;
-gap:10px;
-margin-bottom:20px;
-}
-
-.product-table{
-width:600px;
-border-collapse:collapse;
-}
-
-.product-table th,
-.product-table td{
-border:1px solid #ddd;
-padding:10px;
-}
-
-.product-table th{
-background:#2c3e50;
-color:white;
-} */
-
-/* Layout */
-.owner-container {
-  display: flex;
-  min-height: 100vh;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f6f9;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  background: #1e2a38;
-  color: white;
-  padding: 20px;
-}
-
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.sidebar button {
+.owner-form input,
+.owner-form textarea,
+.owner-form select {
   width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border: none;
-  background: #2f3e4e;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.sidebar button:hover {
-  background: #4b6b88;
-}
-
-/* Content */
-.content {
-  flex: 1;
-  padding: 30px;
-}
-
-/* Store Card */
-.store-card {
+  border: 1px solid rgba(83, 57, 33, 0.12);
+  border-radius: 16px;
+  padding: 12px 14px;
   background: white;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  resize: vertical;
+  outline: none;
 }
 
-.store-card h3 {
-  margin: 0;
+.owner-form textarea {
+  min-height: 96px;
 }
 
-.store-card button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.owner-form__row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.store-card button:hover {
-  background: #0056b3;
+.owner-form__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-/* Forms */
-form {
-  margin-top: 15px;
+.owner-offer-list {
+  border-top: 1px solid rgba(83, 57, 33, 0.08);
 }
 
-form input,
-form select {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 180px;
+@media (max-width: 1200px) {
+  .owner-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-form button {
-  padding: 10px 15px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-form button:hover {
-  background: #1e7e34;
-}
-
-/* Section Titles */
-h2 {
-  margin-bottom: 10px;
-}
-
-h3 {
-  margin-top: 20px;
-}
-
-/* Offer Cards */
-.offer-card {
-  background: #ffffff;
-  border-left: 5px solid #28a745;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.offer-card h4 {
-  margin: 0;
-}
-
-.offer-card p {
-  margin: 4px 0;
-}
-
-/* Divider */
-hr {
-  margin: 20px 0;
-  border: none;
-  border-top: 1px solid #ddd;
+@media (max-width: 720px) {
+  .owner-form__row,
+  .owner-form__actions {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
 }

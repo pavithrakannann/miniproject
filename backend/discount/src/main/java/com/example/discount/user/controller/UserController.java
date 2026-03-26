@@ -1,52 +1,18 @@
-// package com.example.discount.user.controller;
-
-// import com.example.discount.user.dto.UserRequestDto;
-// import com.example.discount.user.dto.UserResponseDto;
-// import com.example.discount.user.service.UserService;
-// import org.springframework.web.bind.annotation.*;
-
-// import java.util.List;
-
-// @RestController
-// @RequestMapping("/api/users")
-// @CrossOrigin
-// public class UserController {
-
-//     private final UserService userService;
-
-//     public UserController(UserService userService) {
-//         this.userService = userService;
-//     }
-
-//     @PostMapping("/register")
-//     public UserResponseDto register(@RequestBody UserRequestDto dto) {
-//         return userService.createUser(dto);
-//     }
-
-//     @GetMapping
-//     public List<UserResponseDto> getAll() {
-//         return userService.getAllUsers();
-//     }
-
-//     @GetMapping("/{id}")
-//     public UserResponseDto getById(@PathVariable Long id) {
-//         return userService.getUserById(id);
-//     }
-// }
-
-
 package com.example.discount.user.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.discount.user.dto.UserRequestDto;
 import com.example.discount.user.dto.UserResponseDto;
 import com.example.discount.user.service.UserService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000") // ✅ better CORS
+@RequestMapping("/api/auth")
 public class UserController {
 
     private final UserService userService;
@@ -55,26 +21,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    // ✅ REGISTER
     @PostMapping("/register")
     public UserResponseDto register(@RequestBody UserRequestDto dto) {
-        return userService.createUser(dto);
+        return userService.register(dto);
     }
 
-    // ✅ LOGIN (🔥 ADDED - IMPORTANT)
     @PostMapping("/login")
     public UserResponseDto login(@RequestBody UserRequestDto dto) {
         return userService.login(dto);
     }
 
-    // ✅ GET ALL USERS
-    @GetMapping
-    public List<UserResponseDto> getAll() {
-        return userService.getAllUsers();
-    }
-
-    // ✅ GET USER BY ID
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public UserResponseDto getById(@PathVariable Long id) {
         return userService.getUserById(id);
     }

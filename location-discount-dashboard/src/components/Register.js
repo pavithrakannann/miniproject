@@ -1,110 +1,128 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
 import "../styles/Auth.css";
-import { useNavigate, Link } from "react-router-dom";
+import { getReadableError } from "../utils/error";
+import { setStoredUser } from "../utils/auth";
 
 function Register() {
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
-
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    role: "USER",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleRegister = async (e) => {
+  const handleChange = (event) => {
+    setForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
-    e.preventDefault();
-
-    const userData = {
-      name,
-      email,
-      password,
-      role
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
 
     try {
-
-      const res = await axios.post(
-        "http://localhost:8080/api/users/register", // ✅ FIXED
-        userData
-      );
-
-      console.log(res.data);
-
-      alert("Registered Successfully!");
-      navigate("/login");
-
-    } catch (error) {
-
-      console.error(error);
-
-      if (error.response) {
-        alert(error.response.data);
-      } else {
-        alert("Registration Failed");
-      }
-
+      const user = await registerUser(form);
+      setStoredUser(user);
+      navigate(user.role === "STORE_OWNER" ? "/owner" : "/user");
+    } catch (err) {
+      setError(getReadableError(err, "Unable to register right now."));
+    } finally {
+      setIsSubmitting(false);
     }
-
   };
 
   return (
+    <div className="auth-page">
+      <div className="auth-panel">
+        <div className="auth-copy">
+          <span className="auth-badge">Offer Hunt</span>
+          <h1>Create your account and pick your dashboard.</h1>
+          <p>
+            Register as a shopper to browse nearby offers, or as a store owner to manage multiple
+            shops and promotions.
+          </p>
+        </div>
 
-    <div className="auth-container">
+        <form className="auth-card" onSubmit={handleSubmit}>
+          <h2>Create account</h2>
+          <p>Choose your role to unlock the right dashboard after login.</p>
 
-      <div className="auth-card">
+          <label>
+            Full name
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Alex Johnson"
+              required
+            />
+          </label>
 
-        <h2>Register</h2>
+          <label>
+            Email
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              required
+            />
+          </label>
 
-        <form onSubmit={handleRegister}>
+          <label>
+            Phone
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="+91 98765 43210"
+            />
+          </label>
 
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e)=>setName(e.target.value)}
-            required
-          />
+          <label>
+            Password
+            <input
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Choose a password"
+              required
+            />
+          </label>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            required
-          />
+          <label>
+            Role
+            <select name="role" value={form.role} onChange={handleChange}>
+              <option value="USER">User</option>
+              <option value="STORE_OWNER">Store Owner</option>
+            </select>
+          </label>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            required
-          />
+          {error ? <div className="auth-error">{error}</div> : null}
 
-          <select
-            value={role}
-            onChange={(e)=>setRole(e.target.value)}
-          >
-            <option value="USER">User</option>
-            <option value="OWNER">Store Owner</option>
-          </select>
+          <button className="auth-button" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating account..." : "Register"}
+          </button>
 
-          <button type="submit">Register</button>
-
+          <div className="auth-footer">
+            <span>Already have an account?</span>
+            <Link to="/login">Sign in</Link>
+          </div>
         </form>
-
-        <p className="auth-switch">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default Register;

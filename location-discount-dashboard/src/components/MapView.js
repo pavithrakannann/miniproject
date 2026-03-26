@@ -1,227 +1,105 @@
-// // AIzaSyBKwwSOBlMGkBNziQ1nj2rC6MbIZjiEJKU
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-// import "../styles/MapView.css";
-
-// const containerStyle = {
-//   width: "100%",
-//   height: "500px"
-// };
-
-// const defaultCenter = {
-//   lat: 11.0168,
-//   lng: 76.9558
-// };
-
-// function MapView({ setShops }) {
-
-//   const { isLoaded } = useJsApiLoader({
-//     googleMapsApiKey: "AIzaSyBKwwSOBlMGkBNziQ1nj2rC6MbIZjiEJKU"
-//   });
-
-//   const [userLocation, setUserLocation] = useState(defaultCenter);
-//   const [stores, setStores] = useState([]);
-
-//   // Get user location
-//   useEffect(() => {
-
-//     if (navigator.geolocation) {
-
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-
-//           const location = {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude
-//           };
-
-//           setUserLocation(location);
-
-//         },
-//         (error) => {
-//           console.log("Location permission denied or unavailable", error);
-//         }
-//       );
-
-//     }
-
-//   }, []);
-
-//   // Fetch stores from backend
-//   useEffect(() => {
-
-//     axios.get("http://localhost:8080/api/store/all")
-//       .then((res) => {
-
-//         const formattedStores = res.data.map(store => ({
-//           ...store,
-//           latitude: Number(store.latitude),
-//           longitude: Number(store.longitude)
-//         }));
-
-//         setStores(formattedStores);
-
-//         // Send stores to parent (App.js)
-//         if (setShops) {
-//           setShops(formattedStores);
-//         }
-
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching stores:", err);
-//       });
-
-//   }, [setShops]);
-
-//   if (!isLoaded) {
-//     return <h3>Loading map...</h3>;
-//   }
-
-//   return (
-
-//     <GoogleMap
-//       mapContainerStyle={containerStyle}
-//       center={userLocation}
-//       zoom={13}
-//     >
-
-//       {/* User Location Marker */}
-//       <Marker
-//         position={userLocation}
-//         icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-//         title="Your Location"
-//       />
-
-//       {/* Store Markers */}
-//       {stores.map((store) => (
-
-//         <Marker
-//           key={store.id}
-//           position={{
-//             lat: store.latitude,
-//             lng: store.longitude
-//           }}
-//           title={store.name}
-//         />
-
-//       ))}
-
-//     </GoogleMap>
-
-//   );
-
-// }
-
-// export default MapView;
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import React, { useMemo } from "react";
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
 import "../styles/MapView.css";
 
 const containerStyle = {
   width: "100%",
-  height: "500px"
+  height: "100%",
 };
 
-const defaultCenter = {
-  lat: 11.0168,
-  lng: 76.9558
+const fallbackCenter = {
+  lat: 20.5937,
+  lng: 78.9629,
 };
 
-function MapView() {
+function hasCoordinates(shop) {
+  return Number.isFinite(Number(shop.latitude)) && Number.isFinite(Number(shop.longitude));
+}
 
+function MapView({ shops, userLocation, selectedShop, onSelectShop }) {
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBKwwSOBlMGkBNziQ1nj2rC6MbIZjiEJKU" // 🔥 replace this
+    googleMapsApiKey: apiKey || "",
   });
 
-  const [userLocation, setUserLocation] = useState(defaultCenter);
-  const [stores, setStores] = useState([]);
-
-  // ✅ Get user location (runs once)
-  useEffect(() => {
-
-    if (navigator.geolocation) {
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-
-        },
-        (error) => {
-          console.log("Location error:", error);
-        }
-      );
-
+  const center = useMemo(() => {
+    if (selectedShop && hasCoordinates(selectedShop)) {
+      return {
+        lat: Number(selectedShop.latitude),
+        lng: Number(selectedShop.longitude),
+      };
     }
 
-  }, []);
+    if (userLocation) {
+      return userLocation;
+    }
 
-  // ✅ Fetch stores (runs once) 🔥 FIXED
-  useEffect(() => {
+    const firstShop = shops.find(hasCoordinates);
+    if (firstShop) {
+      return {
+        lat: Number(firstShop.latitude),
+        lng: Number(firstShop.longitude),
+      };
+    }
 
-    axios.get("http://localhost:8080/api/store/all")
-      .then((res) => {
+    return fallbackCenter;
+  }, [selectedShop, shops, userLocation]);
 
-        const formattedStores = res.data.map(store => ({
-          ...store,
-          latitude: Number(store.latitude),
-          longitude: Number(store.longitude)
-        }));
+  if (!apiKey) {
+    return (
+      <div className="map-placeholder">
+        <h3>Google Maps key needed</h3>
+        <p>Set `REACT_APP_GOOGLE_MAPS_API_KEY` in your frontend environment to enable the live map.</p>
+      </div>
+    );
+  }
 
-        setStores(formattedStores);
-
-      })
-      .catch((err) => {
-        console.error("Error fetching stores:", err);
-      });
-
-  }, []); // ✅ IMPORTANT FIX (no dependency loop)
-
-  // ✅ Loading state
   if (!isLoaded) {
-    return <h3>Loading map...</h3>;
+    return <div className="map-placeholder">Loading map...</div>;
   }
 
   return (
+    <div className="map-shell">
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12} options={{ streetViewControl: false, mapTypeControl: false }}>
+        {userLocation ? (
+          <Marker
+            position={userLocation}
+            title="Your location"
+            icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+          />
+        ) : null}
 
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={userLocation}
-      zoom={13}
-    >
+        {shops.filter(hasCoordinates).map((shop) => (
+          <Marker
+            key={shop.id}
+            position={{
+              lat: Number(shop.latitude),
+              lng: Number(shop.longitude),
+            }}
+            title={shop.name}
+            icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            onClick={() => onSelectShop(shop)}
+          />
+        ))}
 
-      {/* 🟢 User Location */}
-      <Marker
-        position={userLocation}
-        icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-        title="Your Location"
-      />
-
-      {/* 🔴 Store Markers */}
-      {stores.map((store) => (
-
-        <Marker
-          key={store.id}
-          position={{
-            lat: store.latitude,
-            lng: store.longitude
-          }}
-          title={store.name}
-        />
-
-      ))}
-
-    </GoogleMap>
-
+        {selectedShop && hasCoordinates(selectedShop) ? (
+          <InfoWindow
+            position={{
+              lat: Number(selectedShop.latitude),
+              lng: Number(selectedShop.longitude),
+            }}
+            onCloseClick={() => onSelectShop(null)}
+          >
+            <div className="map-info">
+              <strong>{selectedShop.name}</strong>
+              <span>{selectedShop.category}</span>
+              <span>{selectedShop.address}</span>
+            </div>
+          </InfoWindow>
+        ) : null}
+      </GoogleMap>
+    </div>
   );
-
 }
 
 export default MapView;

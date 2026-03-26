@@ -1,71 +1,320 @@
-/* 🔹 App Container */
-.app-container {
-  font-family: "Segoe UI", sans-serif;
-  background: #f5f7fb;
+:root {
+  --bg: #f4efe6;
+  --surface: rgba(255, 250, 243, 0.86);
+  --surface-strong: #fffaf2;
+  --border: rgba(83, 57, 33, 0.12);
+  --text: #1f1a17;
+  --muted: #6a5d53;
+  --accent: #d66b2d;
+  --accent-dark: #a9470e;
+  --accent-soft: rgba(214, 107, 45, 0.12);
+  --success: #1f8f63;
+  --danger: #c44432;
+  --shadow: 0 24px 60px rgba(88, 63, 42, 0.12);
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
 }
 
-/* 🔹 Dashboard Layout */
-.dashboard {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(214, 107, 45, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 25%),
+    linear-gradient(180deg, #fbf6ef 0%, #f0e7db 100%);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.dashboard-page,
+.owner-page {
+  min-height: 100vh;
+  padding: 28px;
+}
+
+.dashboard-hero,
+.owner-hero {
   display: flex;
-  height: calc(100vh - 70px);
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(255, 250, 243, 0.92), rgba(252, 239, 219, 0.9));
+  box-shadow: var(--shadow);
 }
 
-/* 🔹 Sidebar (Categories) */
-.sidebar {
-  width: 20%;
-  background: #1f2d3d;
+.dashboard-kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dashboard-hero h1,
+.owner-hero h1 {
+  margin: 16px 0 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.dashboard-hero p,
+.owner-hero p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.dashboard-hero__actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.user-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.user-pill span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button,
+.danger-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.primary-button,
+.secondary-button {
+  background: var(--accent);
   color: white;
-  padding: 20px;
-  overflow-y: auto;
+  box-shadow: 0 14px 24px rgba(214, 107, 45, 0.28);
 }
 
-/* Sidebar title */
-.sidebar h2 {
-  font-size: 18px;
-  margin-bottom: 15px;
+.ghost-button {
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
-/* Category inside sidebar */
-.sidebar .category-card {
-  background: transparent;
-  border: 1px solid #3a4a5d;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 14px;
+.danger-button {
+  background: rgba(196, 68, 50, 0.12);
+  color: var(--danger);
 }
 
-.sidebar .category-card:hover {
-  background: #2f3e50;
+.primary-button:hover,
+.secondary-button:hover,
+.ghost-button:hover,
+.danger-button:hover {
+  transform: translateY(-1px);
 }
 
-/* 🔹 Content (Shops + Offers) */
-.content {
-  width: 40%;
-  padding: 20px;
-  overflow-y: auto;
+.panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
 }
 
-/* 🔹 Map Panel */
-.map-panel {
-  width: 40%;
-  height: 100%;
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 24px 24px 0;
 }
 
-/* Map full height */
-.map-panel .leaflet-container {
-  height: 100%;
+.panel-header h2 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.panel-header span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.status-banner {
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-weight: 500;
+}
+
+.status-banner--error {
+  background: rgba(196, 68, 50, 0.12);
+  color: var(--danger);
+}
+
+.status-banner--success {
+  background: rgba(31, 143, 99, 0.12);
+  color: var(--success);
+}
+
+.empty-state {
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.shop-card-list,
+.offer-list {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.shop-card {
   width: 100%;
+  text-align: left;
+  border: 1px solid rgba(83, 57, 33, 0.09);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.86);
+  padding: 18px;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-/* 🔹 Scroll clean */
-.sidebar::-webkit-scrollbar,
-.content::-webkit-scrollbar {
-  width: 5px;
+.shop-card:hover,
+.shop-card--selected {
+  transform: translateY(-2px);
+  border-color: rgba(214, 107, 45, 0.45);
+  box-shadow: 0 14px 24px rgba(83, 57, 33, 0.08);
 }
 
-.sidebar::-webkit-scrollbar-thumb,
-.content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
+.shop-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.shop-card h3,
+.offer-item h3 {
+  margin: 0 0 4px;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.shop-card p,
+.offer-item p {
+  margin: 0;
+}
+
+.shop-card__address {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.shop-card__meta,
+.offer-dates,
+.owner-offer-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.shop-badge,
+.offer-state {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--success);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.offer-state {
+  background: rgba(120, 113, 108, 0.12);
+  color: var(--muted);
+}
+
+.offer-state--active {
+  background: rgba(31, 143, 99, 0.12);
+  color: var(--success);
+}
+
+.offer-item {
+  border: 1px solid rgba(83, 57, 33, 0.09);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 18px;
+}
+
+.offer-item__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 960px) {
+  .dashboard-page,
+  .owner-page {
+    padding: 18px;
+  }
+
+  .dashboard-hero {
+    flex-direction: column;
+  }
+
+  .dashboard-hero__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .shop-card__top,
+  .panel-header,
+  .offer-item__top,
+  .shop-card__meta,
+  .offer-dates,
+  .owner-offer-actions {
+    flex-direction: column;
+  }
 }

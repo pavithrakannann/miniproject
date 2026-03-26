@@ -1,9 +1,0 @@
-.navigation-map {
-  height: 250px;
-  margin-top: 20px;
-}
-
-.navigation-map .leaflet-container {
-  height: 100%;
-  border-radius: 10px;
-}
