@@ -1,34 +1,68 @@
-.shop-section{
-padding:20px;
+/* 🔹 Section */
+.shop-section {
+  padding: 20px;
 }
 
-.range-filter{
-margin:10px 0;
+/* 🔹 Filter */
+.range-filter {
+  margin: 10px 0;
 }
 
-.shop-list{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-gap:15px;
+/* 🔹 Shop List (GRID layout for professional look) */
+.shop-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
 }
 
-.shop-card{
-background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
+/* 🔹 Shop Card */
+.shop-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.shop-card h3{
-margin:0;
+/* Hover effect */
+.shop-card:hover {
+  transform: translateY(-4px);
+  background: #f4f8ff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-.distance{
-color:#555;
-font-size:14px;
+/* Selected shop */
+.active-shop {
+  border: 2px solid #007bff;
+  background: #e6f0ff;
 }
 
-.category{
-color:#007bff;
-font-size:14px;
+/* 🔹 Title */
+.shop-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #222;
+}
+
+/* 🔹 Address */
+.shop-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 🔹 Distance */
+.distance {
+  font-size: 13px;
+  color: #777;
+}
+
+/* 🔹 Category tag */
+.category {
+  font-size: 13px;
+  color: #007bff;
+  font-weight: 500;
 }

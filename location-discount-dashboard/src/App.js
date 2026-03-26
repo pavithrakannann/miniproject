@@ -1,337 +1,164 @@
-// // //   // import React from "react";
-// // //   // import Navbar from "./components/Navbar";
-// // //   // import MapView from "./components/MapView";
-// // //   // import ShopList from "./components/ShopList";
-
-// // //   // function App() {
-
-// // //   //   return (
-
-// // //   //     <div>
-
-// // //   //       {/* Top Navigation */}
-// // //   //       <Navbar />
-
-// // //   //       {/* Map Section */}
-// // //   //       <MapView />
-
-// // //   //       {/* Shop List Section */}
-// // //   //       <ShopList />
-
-// // //   //     </div>
-
-// // //   //   );
-
-// // //   // }
-
-// // //   // export default App;
-
-
-// // //   import React from "react";
-// // // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// // // import Navbar from "./components/Navbar";
-// // // import MapView from "./components/MapView";
-// // // import ShopList from "./components/ShopList";
-// // // import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
-
-// // // function App() {
-
-// // //   return (
-
-// // //     <Router>
-
-// // //       {/* Top Navigation */}
-// // //       <Navbar />
-
-// // //       <Routes>
-
-// // //         {/* User Home Page */}
-// // //         <Route
-// // //           path="/"
-// // //           element={
-// // //             <>
-// // //               <MapView />
-// // //               <ShopList />
-// // //             </>
-// // //           }
-// // //         />
-
-// // //         {/* Store Owner Page */}
-// // //         <Route
-// // //           path="/owner"
-// // //           element={<StoreOwnerDashboard />}
-// // //         />
-
-// // //       </Routes>
-
-// // //     </Router>
-
-// // //   );
-
-// // // }
-
-// // // export default App;
-// // // import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-// // // import Login from "./components/Login";
-// // // import Register from "./components/Register";
-// // // import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
-// // // import MapView from "./components/MapView";
-// // // import ShopList from "./components/ShopList";
-
-// // // function App() {
-
-// // //   const user = JSON.parse(localStorage.getItem("user"));
-
-// // //   return (
-
-// // //     <Router>
-
-// // //       <Routes>
-
-// // //         {/* Default route */}
-// // //         <Route
-// // //           path="/"
-// // //           element={
-// // //             user
-// // //               ? user.role === "OWNER"
-// // //                 ? <Navigate to="/owner" />
-// // //                 : <Navigate to="/home" />
-// // //               : <Navigate to="/login" />
-// // //           }
-// // //         />
-
-// // //         {/* Auth */}
-// // //         <Route path="/login" element={<Login />} />
-// // //         <Route path="/register" element={<Register />} />
-
-// // //         {/* User Dashboard */}
-// // //         <Route
-// // //           path="/home"
-// // //           element={
-// // //             <>
-// // //               <MapView />
-// // //               <ShopList />
-// // //             </>
-// // //           }
-// // //         />
-
-// // //         {/* Owner Dashboard */}
-// // //         <Route path="/owner" element={<StoreOwnerDashboard />} />
-
-// // //       </Routes>
-
-// // //     </Router>
-
-// // //   );
-
-// // // }
-
-// // // export default App;
-
-// // import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-// // import Login from "./components/Login";
-// // import Register from "./components/Register";
-// // import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
-// // import MapView from "./components/MapView";
-// // import ShopList from "./components/ShopList";
-
-// // function App() {
-
-// //   const user = JSON.parse(localStorage.getItem("user"));
-
-// //   return (
-
-// //     <Router>
-
-// //       <Routes>
-
-// //         {/* ✅ Default → Login ALWAYS */}
-// //         <Route path="/" element={<Navigate to="/login" />} />
-
-// //         {/* ✅ Login */}
-// //         <Route path="/login" element={<Login />} />
-
-// //         {/* ✅ Register */}
-// //         <Route path="/register" element={<Register />} />
-
-// //         {/* ✅ USER DASHBOARD */}
-// //         <Route
-// //           path="/home"
-// //           element={
-// //             user
-// //               ? user.role === "USER"
-// //                 ? (
-// //                     <>
-// //                       <MapView />
-// //                       <ShopList />
-// //                     </>
-// //                   )
-// //                 : <Navigate to="/owner" />
-// //               : <Navigate to="/login" />
-// //           }
-// //         />
-
-// //         {/* ✅ OWNER DASHBOARD */}
-// //         <Route
-// //           path="/owner"
-// //           element={
-// //             user
-// //               ? user.role === "OWNER"
-// //                 ? <StoreOwnerDashboard />
-// //                 : <Navigate to="/home" />
-// //               : <Navigate to="/login" />
-// //           }
-// //         />
-
-// //       </Routes>
-
-// //     </Router>
-
-// //   );
-
-// // }
-
-// // export default App;
-
-
-// import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-// import Login from "./components/Login";
-// import Register from "./components/Register";
-// import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
-// import MapView from "./components/MapView";
-// import ShopList from "./components/ShopList";
-
-// function App() {
-
-//   const user = JSON.parse(localStorage.getItem("user"));
-
-//   return (
-
-//     <Router>
-
-//       <Routes>
-
-//         {/* ✅ Default → Always Login */}
-//         <Route path="/" element={<Navigate to="/login" />} />
-
-//         {/* ✅ Login Page */}
-//         <Route path="/login" element={<Login />} />
-
-//         {/* ✅ Register Page */}
-//         <Route path="/register" element={<Register />} />
-
-//         {/* ✅ USER DASHBOARD (Protected) */}
-//         <Route
-//           path="/home"
-//           element={
-//             user
-//               ? user.role === "USER"
-//                 ? (
-//                     <>
-//                       <MapView />
-//                       <ShopList />
-//                     </>
-//                   )
-//                 : <Navigate to="/owner" />
-//               : <Navigate to="/login" />
-//           }
-//         />
-
-//         {/* ✅ OWNER DASHBOARD (Protected) */}
-//         <Route
-//           path="/owner"
-//           element={
-//             user
-//               ? user.role === "OWNER"
-//                 ? <StoreOwnerDashboard />
-//                 : <Navigate to="/home" />
-//               : <Navigate to="/login" />
-//           }
-//         />
-
-//         {/* ✅ Unknown route fallback */}
-//         <Route path="*" element={<Navigate to="/login" />} />
-
-//       </Routes>
-
-//     </Router>
-
-//   );
-
-// }
-
-// export default App;
-
-
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-import Login from "./components/Login";
-import Register from "./components/Register";
-import StoreOwnerDashboard from "./components/StoreOwnerDashboard";
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
+
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import CategoryPage from "./components/CategoryPage";
 import MapView from "./components/MapView";
-import ShopList from "./components/ShopList";
 
 function App() {
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [shops, setShops] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // ✅ Fetch stores (ONLY API logic)
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/store/all")
+      .then(res => {
+
+        const stores = res.data.map(store => ({
+          ...store,
+          latitude: Number(store.latitude),
+          longitude: Number(store.longitude)
+        }));
+
+        setShops(stores);
+
+        // Extract unique categories
+        const uniqueCategories = [
+          ...new Set(
+            stores
+              .map(store => store.category?.trim())
+              .filter(cat => cat)
+          )
+        ];
+
+        setCategories(uniqueCategories);
+
+      })
+      .catch(err => console.error("Error fetching stores:", err));
+  }, []);
 
   return (
 
-    <Router>
+    <div className="app-container">
 
-      <Routes>
+      {/* Navbar */}
+      <Navbar />
 
-        {/* ✅ ALWAYS START WITH LOGIN */}
-        <Route path="/" element={<Navigate to="/login" />} />
+      <div className="dashboard">
 
-        {/* ✅ LOGIN */}
-        <Route path="/login" element={<Login />} />
+        {/* Sidebar */}
+        <div className="sidebar">
+          <Sidebar
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        </div>
 
-        {/* ✅ REGISTER */}
-        <Route path="/register" element={<Register />} />
+        {/* Main Content */}
+        <div className="content">
+          <CategoryPage
+            shops={shops}
+            selectedCategory={selectedCategory}
+          />
+        </div>
 
-        {/* ✅ USER DASHBOARD */}
-        <Route
-          path="/home"
-          element={
-            user
-              ? user.role === "USER"
-                ? (
-                    <div>
-                      <MapView />
-                      <ShopList />
-                    </div>
-                  )
-                : <Navigate to="/owner" />
-              : <Navigate to="/login" />
-          }
-        />
+        {/* Map */}
+        <div className="map-panel">
+          <MapView shops={shops} />
+        </div>
 
-        {/* ✅ OWNER DASHBOARD */}
-        <Route
-          path="/owner"
-          element={
-            user
-              ? user.role === "OWNER"
-                ? <StoreOwnerDashboard />
-                : <Navigate to="/home" />
-              : <Navigate to="/login" />
-          }
-        />
+      </div>
 
-        {/* ✅ FALLBACK */}
-        <Route path="*" element={<Navigate to="/login" />} />
-
-      </Routes>
-
-    </Router>
+    </div>
 
   );
-
 }
 
 export default App;
+
+// import React, { useEffect, useState } from "react";
+  // import "./App.css";
+  // import axios from "axios";
+
+  // import Navbar from "./components/Navbar";
+  // import Sidebar from "./components/Sidebar";
+  // import CategoryPage from "./components/CategoryPage";
+  // import MapView from "./components/MapView";
+
+  // function App() {
+
+  //   const [shops, setShops] = useState([]);
+  //   const [categories, setCategories] = useState([]);
+  //   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  //   // ✅ Fetch stores
+  //   useEffect(() => {
+  //     axios.get("http://localhost:8080/api/store/all")
+  //       .then(res => {
+
+  //         const stores = res.data;
+  //         setShops(stores);
+
+  //         const uniqueCategories = [
+  //           ...new Set(
+  //             stores
+  //               .map(store => store.category?.trim())
+  //               .filter(cat => cat)
+  //           )
+  //         ];
+
+  //         setCategories(uniqueCategories);
+
+  //       })
+  //       .catch(err => console.error("Error fetching stores:", err));
+
+  //   }, []);
+
+  //   // ✅ FILTER LOGIC (MAIN FIX)
+  //   const filteredShops = selectedCategory
+  //     ? shops.filter(shop => shop.category === selectedCategory)
+  //     : shops; // 👈 show ALL initially
+
+  //   return (
+
+  //     <div className="app-container">
+
+  //       <Navbar />
+
+  //       <div className="dashboard">
+
+  //         {/* Sidebar */}
+  //         <div className="sidebar">
+  //           <Sidebar
+  //             categories={categories}
+  //             selectedCategory={selectedCategory}
+  //             setSelectedCategory={setSelectedCategory}
+  //           />
+  //         </div>
+
+  //         {/* Content */}
+  //         <div className="content">
+  //           <CategoryPage
+  //             shops={filteredShops}   // ✅ FIXED
+  //             selectedCategory={selectedCategory}
+  //           />
+  //         </div>
+
+  //         {/* Map */}
+  //         <div className="map-panel">
+  //           <MapView shops={filteredShops} /> {/* ✅ also update map */}
+  //         </div>
+
+  //       </div>
+
+  //     </div>
+
+  //   );
+  // }
+
+  // export default App;
