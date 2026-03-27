@@ -1,0 +1,68 @@
+.owner-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr 1.1fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.owner-panel {
+  overflow: hidden;
+}
+
+.owner-form {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.owner-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.owner-form input,
+.owner-form textarea,
+.owner-form select {
+  width: 100%;
+  border: 1px solid rgba(83, 57, 33, 0.12);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: white;
+  resize: vertical;
+  outline: none;
+}
+
+.owner-form textarea {
+  min-height: 96px;
+}
+
+.owner-form__row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.owner-form__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.owner-offer-list {
+  border-top: 1px solid rgba(83, 57, 33, 0.08);
+}
+
+@media (max-width: 1200px) {
+  .owner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .owner-form__row,
+  .owner-form__actions {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+}

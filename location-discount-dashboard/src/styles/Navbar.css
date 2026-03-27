@@ -1,0 +1,75 @@
+.filter-navbar {
+  position: sticky;
+  top: 18px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 2fr repeat(3, minmax(160px, 1fr)) auto;
+  gap: 14px;
+  margin: 22px 0;
+  padding: 18px;
+  border: 1px solid rgba(83, 57, 33, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 250, 243, 0.88);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 45px rgba(88, 63, 42, 0.1);
+}
+
+.filter-navbar__group {
+  display: grid;
+  gap: 8px;
+}
+
+.filter-navbar__group label {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.filter-navbar input,
+.filter-navbar select {
+  width: 100%;
+  border: 1px solid rgba(83, 57, 33, 0.12);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: white;
+  outline: none;
+}
+
+.filter-navbar__group--toggle {
+  align-content: start;
+}
+
+.toggle-chip,
+.filter-navbar__reset {
+  border: 1px solid rgba(83, 57, 33, 0.12);
+  border-radius: 999px;
+  padding: 12px 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.toggle-chip--active {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  border-color: rgba(214, 107, 45, 0.35);
+}
+
+.filter-navbar__reset {
+  align-self: end;
+  background: var(--accent);
+  color: white;
+  border: 0;
+}
+
+@media (max-width: 1100px) {
+  .filter-navbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .filter-navbar {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+}
